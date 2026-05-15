@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useI18n } from "../i18n/context";
 
+const MAX_VALUE = 10_000;
+
 export default function LcmForm({ onSubmit, isLoading }) {
   const { t } = useI18n();
   const [x, setX] = useState("");
@@ -11,6 +13,7 @@ export default function LcmForm({ onSubmit, isLoading }) {
     if (value === "") return null;
     if (!/^\d+$/.test(value)) return t.positiveInteger;
     if (Number(value) <= 0) return t.cannotBeZero(fieldName);
+    if (Number(value) > MAX_VALUE) return t.maxValue(MAX_VALUE);
     return null;
   }
 

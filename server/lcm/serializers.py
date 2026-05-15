@@ -3,6 +3,8 @@ from rest_framework import serializers
 
 
 class LcmInputSerializer(serializers.Serializer):
+    MAX_VALUE = 10_000
+
     x = serializers.CharField()
     y = serializers.CharField()
 
@@ -11,12 +13,16 @@ class LcmInputSerializer(serializers.Serializer):
     def _validate_integer_string(self, value: str, field_name: str) -> int:
         if not self.INTEGER_PATTERN.match(value):
             raise serializers.ValidationError(
-                f"'{field_name}' deve ser um número inteiro positivo."
+                f"'{field_name}' must be a positive integer."
             )
         parsed = int(value)
         if parsed <= 0:
             raise serializers.ValidationError(
-                f"'{field_name}' deve ser maior que zero."
+                f"'{field_name}' must be greater than zero."
+            )
+        if parsed > self.MAX_VALUE:
+            raise serializers.ValidationError(
+                f"'{field_name}' must be at most {self.MAX_VALUE}."
             )
         return parsed
 
@@ -30,6 +36,6 @@ class LcmInputSerializer(serializers.Serializer):
         x, y = data.get("x"), data.get("y")
         if x is not None and y is not None and x >= y:
             raise serializers.ValidationError(
-                "'x' deve ser estritamente menor que 'y'."
+                "'x' must be strictly less than 'y'."
             )
         return data

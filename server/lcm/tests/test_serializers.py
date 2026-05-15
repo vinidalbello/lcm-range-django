@@ -72,3 +72,17 @@ class LcmInputSerializerTest(SimpleTestCase):
         s = self._serialize({"x": "", "y": "10"})
         self.assertFalse(s.is_valid())
         self.assertIn("x", s.errors)
+
+    def test_x_exceeds_max_value(self):
+        s = self._serialize({"x": "10001", "y": "20000"})
+        self.assertFalse(s.is_valid())
+        self.assertIn("x", s.errors)
+
+    def test_y_exceeds_max_value(self):
+        s = self._serialize({"x": "1", "y": "10001"})
+        self.assertFalse(s.is_valid())
+        self.assertIn("y", s.errors)
+
+    def test_both_at_max_value(self):
+        s = self._serialize({"x": "9999", "y": "10000"})
+        self.assertTrue(s.is_valid())

@@ -64,3 +64,7 @@ class LcmViewTest(SimpleTestCase):
         response = self.client.get(reverse("lcm"), {"x": "1", "y": "10000"})
         self.assertEqual(response.status_code, 200)
         self.assertIn("result", response.json())
+
+    def test_exceeds_max_value_returns_400(self):
+        response = self.client.get(reverse("lcm"), {"x": "1", "y": "10001"})
+        self.assertEqual(response.status_code, 400)
