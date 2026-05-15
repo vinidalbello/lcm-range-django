@@ -55,3 +55,29 @@ Roda em http://localhost:5173
 
 - **Entrada:** 1 e 10
 - **Saida:** 2520 (o menor inteiro divisivel por todos os numeros de 1 a 10)
+
+## Extra
+
+### Testes
+
+Com o virtualenv ativo:
+
+```bash
+cd server && source venv/bin/activate && python manage.py test
+```
+
+### API
+
+Com o server rodando, a rota pode ser testada diretamente via navegador, curl ou Postman:
+
+```
+GET http://localhost:8000/api/lcm/?x=1&y=10
+```
+
+Resposta:
+
+```json
+{"x": 1, "y": 10, "result": "2520"}
+```
+
+O valor maximo permitido para x e y e 10.000.
